@@ -1,0 +1,12 @@
+services:
+  nodeodm:
+    build: ./nodeodm-gpu
+    container_name: nodeodm-gpu
+    ports:
+      - "3000:3000"
+    gpus: all
+    environment:
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    volumes:
+      - datasets:/datasets

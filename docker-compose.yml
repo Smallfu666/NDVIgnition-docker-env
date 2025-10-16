@@ -1,0 +1,35 @@
+services:
+  webodm:
+    image: opendronemap/webodm:latest
+    container_name: webodm
+    ports:
+      - "8000:8000"
+    depends_on:
+      - nodeodm
+    volumes:
+      - odm_data:/webodm
+      - datasets:/datasets
+
+  nodeodm:
+    image: opendronemap/nodeodm:latest
+    container_name: nodeodm
+    ports:
+      - "3000:3000"
+    volumes:
+      - datasets:/datasets
+
+  hloc:
+    build: ./hloc
+    container_name: hloc
+    tty: true
+    stdin_open: true
+    working_dir: /workspace
+    volumes:
+      - datasets:/datasets
+      - hloc_out:/workspace/out
+    command: bash -lc "sleep infinity"
+
+volumes:
+  datasets:
+  odm_data:
+  hloc_out:
